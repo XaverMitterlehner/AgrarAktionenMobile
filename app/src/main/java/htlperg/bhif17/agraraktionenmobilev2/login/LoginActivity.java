@@ -70,10 +70,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
             }
+
             private void sendPost(final EditText email, final EditText password) {
-                Thread thread = new Thread(new Runnable() {
+
+                runOnUiThread(new Runnable() {
+
                     @Override
                     public void run() {
+
                         try {
 
                             URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user/getUserByEmailAndPassword");
@@ -129,9 +133,17 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+                    }
+                });
+
+                /*Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
                 thread.start();
             }
-        });
+        });*/
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

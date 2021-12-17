@@ -59,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         *  set up drop down with android.widget.Spinner to sort recycler view
+         */
+
         spinner = (Spinner) findViewById(R.id.sorter);
         ArrayAdapter spinnerAdapter = new ArrayAdapter(this , R.layout.spinner_item, spinnerOptions);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,16 +83,22 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        mBundle = getIntent().getExtras();
-
+        /**
+         *  setup action bar with logo and don't show project title
+         */
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.agraraktionen_logo_xsmall);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        /**
+         *  set up round button in bottom right corner
+         *  onClick -> ImageSearch which returns items with similar image for selected image
+         */
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mBundle = getIntent().getExtras();
                 Intent intent = new Intent(MainActivity.this, ImageClassification.class);
                 if(mBundle != null) {
                     String loginData = mBundle.getString("response");
@@ -98,13 +108,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         *  set up recycler view with item list which is shown in main activity
+         */
         recyclerView = findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // download data in async thread and send it to adapter
         refresh();
 
+        // set up swipe to refresh for reloading list from rest api into in recycler view
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -115,13 +128,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // download data from rest-api in async thread and send it to adapter
     void refresh(){
         CompletableFuture
                 .supplyAsync(this::loadData)
                 .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> displayData(doPosts))));
     }
 
-
+    // set up recycler view with parameter list
     void displayData(Item items[]) {
         itemList = new LinkedList<>();
         itemList.addAll(Arrays.asList(items));
@@ -131,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
     }
 
-
+    // download data from rest-api
     Optional<Item[]> loadData() {
         Optional<Item[]> items = Optional.ofNullable(null);
         Log.i(TAG, "download data from api...");
@@ -149,10 +163,12 @@ public class MainActivity extends AppCompatActivity {
         return items;
     }
 
+    // sort list in recycler view triggered by spinner.onItemSelected()
     public void spinnerOnClick(int position){
         recyclerAdapter.getSortFilter().filter(spinnerOptions[position]);
     }
 
+    // set up back button in action bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -164,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // set up search view
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -181,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // filter the list in recycler view with string from search bar
                 recyclerAdapter.getFilter().filter(newText);
                 return false;
             }
