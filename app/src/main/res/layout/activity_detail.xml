@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/anthracite"
+    tools:context=".DetailActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/detail_image_border"
+        android:padding="10dip"
+        android:layout_margin="3dp">
+        <ImageView
+            android:id="@+id/detailImage"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_height="605px"
+            android:layout_width="605px"
+            android:padding="1dp"></ImageView>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="335dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Bezeichnung"
+                android:layout_margin="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:id="@+id/detailBezeichnung"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Hersteller"
+                android:layout_margin="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:id="@+id/detailHersteller"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Description"
+                android:layout_margin="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:id="@+id/detailDescription">
+
+            </TextView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:orientation="vertical"
+            android:layout_weight="0.90"
+            android:paddingTop="18dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/detailPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="22dp"
+                android:text="Price"
+                android:textColor="@color/aa_green"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_weight="0.5"
+                android:orientation="vertical"/>
+
+            <TextView
+                android:id="@+id/detailRealPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="25dp"
+                android:text="RealPrice"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                android:layout_weight="0.5"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end|bottom"
+            android:orientation="vertical"
+            android:layout_weight="0.10">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buyButton"
+                android:layout_width="120dp"
+                android:layout_height="53dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="27dp"
+                android:background="@color/aa_green"
+                android:text="zum Shop"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:autoLink="web"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

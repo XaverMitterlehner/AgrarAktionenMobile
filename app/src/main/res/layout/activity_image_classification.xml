@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".image.ImageClassification"
+    android:background="@color/dark_grey">
+
+    <Button
+        android:id="@+id/takePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/aa_green"
+        android:text="TAKE PHOTO" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/selectFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/takePhoto"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/aa_green"
+        android:text="SELECT FILE" />
+
+    <TextView
+        android:id="@+id/filename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/selectFile"
+        android:text=""
+        android:padding="10dp"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/filename"
+        android:backgroundTint="@color/dark_green"
+        android:text="Upload File" />
+
+    <ImageView
+        android:layout_below="@id/upload"
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:layout_height="250dp"
+        android:src="@drawable/image_placeholder" />
+
+</RelativeLayout>
