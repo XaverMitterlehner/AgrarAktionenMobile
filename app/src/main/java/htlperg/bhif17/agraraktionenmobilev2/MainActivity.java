@@ -37,6 +37,7 @@ import java.util.concurrent.CompletableFuture;
 
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
+import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+         * this time service cycles in an interval of 60 seconds and pushes a notification if something in the database has changed
+         */
+        startService(new Intent(this, TimeService.class));
 
         /**
          *  set up drop down with android.widget.Spinner to sort recycler view

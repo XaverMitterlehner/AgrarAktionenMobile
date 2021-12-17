@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.RegisterActivity" />
+        <service android:name=".service.TimeService"/>
     </application>
 
 </manifest>
