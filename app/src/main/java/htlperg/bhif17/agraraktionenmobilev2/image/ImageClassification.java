@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import okhttp3.Call;
@@ -53,7 +54,7 @@ public class ImageClassification extends AppCompatActivity {
     ProgressBar progressBar;
     ImageView image_View;
     Bundle bundle;
-    String loginData;
+    static String loginData;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -281,6 +282,8 @@ public class ImageClassification extends AppCompatActivity {
                         .addFormDataPart("userName", loginData)
                         .build();
 
+
+
                 Request request = new Request.Builder()
                         //.url("http://10.0.2.2:8080/api/image/upload")
                         //.url("http://10.0.2.2:8080/api/upload/imageAndData")
@@ -299,7 +302,13 @@ public class ImageClassification extends AppCompatActivity {
                         .post(requestBody)
                         .build();*/
 
-                OkHttpClient client = new OkHttpClient();
+                //custom timeout, to prevent app form timeout exception while uploading an image to the server
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .writeTimeout(120, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .build();
+
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
