@@ -26,17 +26,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
+import htlperg.bhif17.agraraktionenmobilev2.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public final static String TAG = LoginActivity.class.getSimpleName();
 
     EditText email, password;
     Button login;
     TextView register;
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
-    TextView textView;
     CheckBox checkBox;
+    static String loginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         register = (TextView) findViewById(R.id.register);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
-        textView = findViewById(R.id.textView);
         checkBox = findViewById(R.id.checkBox);
 
         login.setVisibility(View.INVISIBLE);
-        textView.setVisibility(View.INVISIBLE);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                             jsonParam.put("password", password.getText());
                             jsonParam.put("loggedIn", false);
 
-                            Log.i("JSON", jsonParam.toString());
+                            Log.i(TAG + " POST", jsonParam.toString());
                             DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                             //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
                             os.writeBytes(jsonParam.toString());
@@ -99,8 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                             os.flush();
                             os.close();
 
-                            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                            Log.i("MSG", conn.getResponseMessage());
+                            Log.i(TAG + " STATUS", String.valueOf(conn.getResponseCode()) + " | " + conn.getResponseMessage());
 
                             //Response from The POST Request
                             try(BufferedReader br = new BufferedReader(
@@ -110,14 +110,13 @@ public class LoginActivity extends AppCompatActivity {
                                 while ((responseLine = br.readLine()) != null) {
                                     response.append(responseLine.trim());
                                 }
-                                System.out.println(response.toString());
                                 String responseString = response.toString();
                                 if(responseString.equals("[]") || responseString.isEmpty()){
                                     Looper.prepare();
-                                    textView.setText("");
+                                    loginData = "";
                                 }else {
                                     Looper.prepare();
-                                    textView.setText(response.toString());
+                                    loginData = response.toString();
                                 }
 
                             }
@@ -143,18 +142,17 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             private void newAction() {
-                String text = (String) textView.getText();
-                System.out.println(text);
-                if(text.isEmpty()){
+                String login = loginData;
+                if(login == null ||  login.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Failed to Login", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    myIntent.putExtra("response", text); //Optional parameters
-                    myIntent.putExtra("email", password.getText());
-                    myIntent.putExtra("password", password.getText());
+                    Log.i(TAG, "valid login data set: " + login);
+                    MyProperties.getInstance().userLoginData = loginData;
+                    MyProperties.getInstance().selectedCategory = "";
                     LoginActivity.this.startActivity(myIntent);
-                    textView.setText("");
+                    loginData = "";
                 }
 
             }

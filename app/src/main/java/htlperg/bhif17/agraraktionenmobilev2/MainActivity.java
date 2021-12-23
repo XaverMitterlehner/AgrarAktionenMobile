@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,9 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -38,6 +36,7 @@ import java.util.concurrent.CompletableFuture;
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
 import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
+import lombok.SneakyThrows;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,18 +46,21 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     Spinner spinner;
+    Button filterButton;
     int selectedItem;
 
     List<Item> itemList;
+    URL url;
 
-    Bundle mBundle;
+    String[] spinnerOptions = {"Sortieren nach", "Preis absteigend", "Preis aufsteigend"};
 
-    String[] spinnerOptions = { "Sortieren nach", "Preis absteigend", "Preis aufsteigend"};
-
+    @SneakyThrows
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        refresh();
 
         /**
          * this time service cycles in an interval of 60 seconds and pushes a notification if something in the database has changed
@@ -70,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
          */
 
         spinner = (Spinner) findViewById(R.id.sorter);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(this , R.layout.spinner_item, spinnerOptions);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, spinnerOptions);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(0,false);
+        spinner.setSelection(0, false);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -87,6 +89,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+        });
+
+        filterButton = findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+                startActivity(intent);
+            }
         });
 
         /**
@@ -104,12 +115,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBundle = getIntent().getExtras();
                 Intent intent = new Intent(MainActivity.this, ImageClassification.class);
-                if(mBundle != null) {
-                    String loginData = mBundle.getString("response");
+                /*if (extras != null) {
+                    String loginData = extras.getString("response");
                     intent.putExtra("loginData", loginData);
-                }
+                }*/
                 startActivity(intent);
             }
         });
@@ -121,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        refresh();
-
         // set up swipe to refresh for reloading list from rest api into in recycler view
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -132,10 +140,28 @@ public class MainActivity extends AppCompatActivity {
                 pullToRefresh.setRefreshing(false);
             }
         });
+
+    }
+
+    @SneakyThrows
+    void checkUrl() {
+        if (MyProperties.getInstance().selectedCategory != "") {
+            String cat = MyProperties.getInstance().selectedCategory;
+            String urlString = "https://student.cloud.htl-leonding.ac.at/20170033/api/categories/" + cat;
+            url = new URL(urlString);
+            MyProperties.getInstance().selectedCategory = cat;
+        } else {
+            url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/item/inserted");
+        }
+
+        Log.i(TAG, "checked url... taken: " + "'" + url + "'");
+
     }
 
     // download data from rest-api in async thread and send it to adapter
-    void refresh(){
+    void refresh() {
+        Log.i(TAG, "refreshing data...");
+        checkUrl();
         CompletableFuture
                 .supplyAsync(this::loadData)
                 .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> displayData(doPosts))));
@@ -154,23 +180,21 @@ public class MainActivity extends AppCompatActivity {
     // download data from rest-api
     Optional<Item[]> loadData() {
         Optional<Item[]> items = Optional.ofNullable(null);
-        Log.i(TAG, "download data from api...");
+        Log.i(TAG, "download items from api...");
         try {
-            //URL url = new URL("http://10.0.2.2:8080/api/item/inserted");
-            URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/item");
             items = Optional.of(new ObjectMapper()
-                                        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                                        .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))
-                                        .readValue(url, Item[].class));
-        } catch(Exception e) {
+                    .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                    .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))
+                    .readValue(url, Item[].class));
+        } catch (Exception e) {
             Log.e(TAG, "Failed to download", e);
         }
-        Log.i(TAG, "downloaded data succesfully");
+        Log.i(TAG, "downloaded items successfully");
         return items;
     }
 
     // sort list in recycler view triggered by spinner.onItemSelected()
-    public void spinnerOnClick(int position){
+    public void spinnerOnClick(int position) {
         recyclerAdapter.getSortFilter().filter(spinnerOptions[position]);
     }
 

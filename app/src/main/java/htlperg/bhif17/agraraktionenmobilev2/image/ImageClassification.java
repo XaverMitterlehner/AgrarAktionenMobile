@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import htlperg.bhif17.agraraktionenmobilev2.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,19 +54,12 @@ public class ImageClassification extends AppCompatActivity {
     Button upload;
     ProgressBar progressBar;
     ImageView image_View;
-    Bundle bundle;
-    static String loginData;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_classification);
-
-        bundle = getIntent().getExtras();
-        if (bundle != null) {
-            loginData = bundle.getString("loginData");
-        }
 
         getSupportActionBar().setTitle("Bilderkennung");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -279,7 +273,7 @@ public class ImageClassification extends AppCompatActivity {
             try {
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("selectedFile", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
-                        .addFormDataPart("userName", loginData)
+                        .addFormDataPart("userName", MyProperties.getInstance().userLoginData)
                         .build();
 
 
@@ -291,16 +285,6 @@ public class ImageClassification extends AppCompatActivity {
                         .post(requestBody)
                         .build();
 
-            /*File file = new File(path);
-            try {
-                RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("uploadedFile", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
-                        .build();
-
-                Request request = new Request.Builder()
-                        .url("https://student.cloud.htl-leonding.ac.at/20170011/api/file/upload")
-                        .post(requestBody)
-                        .build();*/
 
                 //custom timeout, to prevent app form timeout exception while uploading an image to the server
                 OkHttpClient client = new OkHttpClient.Builder()
@@ -308,6 +292,8 @@ public class ImageClassification extends AppCompatActivity {
                         .writeTimeout(120, TimeUnit.SECONDS)
                         .readTimeout(60, TimeUnit.SECONDS)
                         .build();
+
+                System.out.println("Waiting for response ...");
 
                 client.newCall(request).enqueue(new Callback() {
                     @Override

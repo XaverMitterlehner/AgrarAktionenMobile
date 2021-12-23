@@ -20,16 +20,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".FilterActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".image.SimiliarItemsActivity"
             android:parentActivityName=".image.ImageClassification" />
         <activity
             android:name=".image.ImageClassification"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DetailActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".login.LoginActivity" android:exported="true">
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.RegisterActivity" />
-        <service android:name=".service.TimeService"/>
+
+        <service android:name=".service.TimeService" />
     </application>
 
 </manifest>
