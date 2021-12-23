@@ -13,4 +13,14 @@
         android:orderInCategory="20"
         android:title="Settings"
         app:showAsAction="never" />
+    -<item
+        android:id="@+id/action_account"
+        android:orderInCategory="20"
+        android:title="Account"
+        app:showAsAction="never" />
+    -<item
+        android:id="@+id/logout"
+        android:orderInCategory="20"
+        android:title="Logout"
+        app:showAsAction="never" />
 </menu>

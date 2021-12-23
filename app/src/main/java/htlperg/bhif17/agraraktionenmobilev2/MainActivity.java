@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import htlperg.bhif17.agraraktionenmobilev2.account.Account;
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
 import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
@@ -205,6 +207,12 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_account:
+                onAccountPressed();
+                return true;
+            case R.id.logout:
+                onLogoutPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -234,5 +242,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+
+    private void onAccountPressed() {
+        System.out.println("Account opened!");
+        Intent intent = new Intent(MainActivity.this, Account.class);
+        startActivity(intent);
+    }
+
+    private void onLogoutPressed() {
+        Log.e(TAG, "Not working now!");
+        Toast.makeText(getApplicationContext(), "coming soon!", Toast.LENGTH_SHORT).show();
+        /*
+        Account accountLogout = new Account();
+        accountLogout.logout();
+         */
+        //TODO: if you try to get this working, you have to change MyProperties to the actual live user data by calling the api when the class gets called. You also have to change something in the Account class because it is doing the download task of the live user data, which can and should be outsourced to the MyProperties class!
     }
 }
