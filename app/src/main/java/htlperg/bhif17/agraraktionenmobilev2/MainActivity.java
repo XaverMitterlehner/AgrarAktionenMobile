@@ -38,6 +38,7 @@ import htlperg.bhif17.agraraktionenmobilev2.account.Account;
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
 import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
+import htlperg.bhif17.agraraktionenmobilev2.setting.Setting;
 import lombok.SneakyThrows;
 
 public class MainActivity extends AppCompatActivity {
@@ -207,6 +208,9 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_settings:
+                onSettingsPressed();
+                return true;
             case R.id.action_account:
                 onAccountPressed();
                 return true;
@@ -244,6 +248,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void onSettingsPressed() {
+        System.out.println("Settings opened!");
+        Intent intent = new Intent(MainActivity.this, Setting.class);
+        startActivity(intent);
+    }
 
     private void onAccountPressed() {
         System.out.println("Account opened!");

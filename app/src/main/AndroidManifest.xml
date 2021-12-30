@@ -26,6 +26,9 @@
             android:name=".account.Account"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".setting.Setting"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".image.SimiliarItemsActivity"
             android:parentActivityName=".image.ImageClassification" />
         <activity

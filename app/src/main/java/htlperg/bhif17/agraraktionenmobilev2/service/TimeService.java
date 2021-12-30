@@ -1,13 +1,10 @@
 package htlperg.bhif17.agraraktionenmobilev2.service;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -34,7 +31,6 @@ import java.util.concurrent.CompletableFuture;
 
 import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
 import htlperg.bhif17.agraraktionenmobilev2.R;
-import htlperg.bhif17.agraraktionenmobilev2.RecyclerAdapter;
 import htlperg.bhif17.agraraktionenmobilev2.login.LoginActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.CheckSum;
 
@@ -50,12 +46,15 @@ public class TimeService extends Service {
     //Notification System
     private int notificationId = 1000;
 
-
-
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
     // timer handling
     private Timer mTimer = null;
+
+    // variables from Settings to check if notifications are allowed
+    private static final String SHARED_PREFS = "sharedPrefs";
+    private static final String NOTIFICATION_SWITCH = "notificationSwitch";
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -64,6 +63,7 @@ public class TimeService extends Service {
 
     @Override
     public void onCreate() {
+
         // cancel if already existed
         if (mTimer != null) {
             mTimer.cancel();
@@ -73,6 +73,7 @@ public class TimeService extends Service {
         }
         // schedule task
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL);
+
     }
 
     class TimeDisplayTimerTask extends TimerTask {
@@ -84,8 +85,18 @@ public class TimeService extends Service {
 
                 @Override
                 public void run() {
-                    // display toast
-                    refresh();
+                    //check for notification status
+                    boolean notificationParam = loadSettings();
+
+                    if(notificationParam == true){
+
+                        // display toast
+                        //Toast.makeText(getApplicationContext(), "Notification enabled!", Toast.LENGTH_SHORT).show();
+
+                        //load notification
+                        refresh();
+                    }
+
                 }
 
             });
@@ -153,6 +164,9 @@ public class TimeService extends Service {
             //Log.i(TAG, "downloaded checksum succesfully");
             return checksum;
         }
-
+        public boolean loadSettings() {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            return sharedPreferences.getBoolean(NOTIFICATION_SWITCH, false);
+        }
     }
 }
