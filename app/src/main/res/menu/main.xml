@@ -22,5 +22,6 @@
         android:id="@+id/logout"
         android:orderInCategory="20"
         android:title="Logout"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>

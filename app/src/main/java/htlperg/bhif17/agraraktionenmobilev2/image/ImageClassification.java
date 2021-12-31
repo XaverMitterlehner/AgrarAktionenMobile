@@ -271,9 +271,13 @@ public class ImageClassification extends AppCompatActivity {
             dialog.show();*/
 
             try {
+                String myProperties = MyProperties.getInstance().userLoginData;
+                if(myProperties == null){
+                    myProperties = "";
+                }
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("selectedFile", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
-                        .addFormDataPart("userName", MyProperties.getInstance().userLoginData)
+                        .addFormDataPart("userName", myProperties)
                         .build();
 
 

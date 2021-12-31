@@ -97,6 +97,15 @@
                     android:text="@string/create_new"
                     android:textColor="@color/anthracite"
                     android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/withoutLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/without_login"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -116,6 +125,6 @@
         android:layout_marginTop="-50dp"
         android:background="@drawable/round_background"
         android:padding="15dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/agraraktionen_a_large_scaled_login" />
 
 </RelativeLayout>

@@ -36,6 +36,7 @@ import java.util.concurrent.CompletableFuture;
 
 import htlperg.bhif17.agraraktionenmobilev2.account.Account;
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
+import htlperg.bhif17.agraraktionenmobilev2.login.RegisterActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
 import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
 import htlperg.bhif17.agraraktionenmobilev2.setting.Setting;
@@ -255,9 +256,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onAccountPressed() {
-        System.out.println("Account opened!");
-        Intent intent = new Intent(MainActivity.this, Account.class);
-        startActivity(intent);
+        String userData = MyProperties.getInstance().userLoginData;
+        if(userData == null || userData == ""){
+            System.out.println("Opened without login!");
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        }else {
+            System.out.println("Account opened!");
+            Intent intent = new Intent(MainActivity.this, Account.class);
+            startActivity(intent);
+        }
+
+
+
     }
 
     private void onLogoutPressed() {

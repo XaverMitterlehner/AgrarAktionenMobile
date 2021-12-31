@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">AgrarAktionenMobile</string>
+    <string name="app_name">Agrar Aktionen</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="login">Login</string>
     <string name="create_new">Click here for register</string>
+    <string name="without_login">Continue without login</string>
     <string name="not_register">Not Register?</string>
     <string name="name">Name</string>
     <string name="phone_number">Phone Number</string>

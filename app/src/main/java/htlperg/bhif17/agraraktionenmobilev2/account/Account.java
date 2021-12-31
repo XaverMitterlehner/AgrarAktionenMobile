@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -80,12 +81,18 @@ public class Account extends AppCompatActivity {
 
     public void  update() {
         new UpdateTask().execute();
-
+        Toast.makeText(this, "account updated", Toast.LENGTH_SHORT).show();
     }
     public void  logout() {
         new LogoutTask().execute();
-
+        Toast.makeText(this, "logged out", Toast.LENGTH_SHORT).show();
     }
+
+    private void removeMyProperties() {
+        String test = MyProperties.getInstance().userLoginData = null;
+        System.out.println(test);
+    }
+
     public JSONObject createJson(){
         /** Get updated User Data **/
         //email
@@ -232,20 +239,20 @@ public class Account extends AppCompatActivity {
 
                     String networkResp = response.body().string();
 
+                    //remove the existing user data from MyProperties
+                    removeMyProperties();
+
                     System.out.println(networkResp);
                     jsonObjectResp = parseJSONStringToJSONObject(networkResp);
 
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
 
-
                 } catch (Exception ex) {
                     String err = String.format("{\"result\":\"false\",\"error\":\"%s\"}", ex.getMessage());
                     jsonObjectResp = parseJSONStringToJSONObject(err);
                 }
             }
-
-
             return jsonObjectResp;
 
         }

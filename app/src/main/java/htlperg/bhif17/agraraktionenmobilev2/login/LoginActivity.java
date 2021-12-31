@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,25 +38,35 @@ public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Button login;
     TextView register;
+    TextView withoutLogin;
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
     CheckBox checkBox;
     static String loginData;
+    Menu menu;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Login");
 
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
         register = (TextView) findViewById(R.id.register);
+        withoutLogin = (TextView) findViewById(R.id.withoutLogin);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
         checkBox = findViewById(R.id.checkBox);
 
         login.setVisibility(View.INVISIBLE);
+
+        //Set user data null to provide system from crashing because of the previous login user data
+        MyProperties.getInstance().userLoginData = null;
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -167,6 +179,24 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        withoutLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //TODO: have to change the Menu Item action_account to non visible and the ability to see previously made picture should not be enabled
+
+                MyProperties.getInstance().userLoginData = loginData;
+                MyProperties.getInstance().selectedCategory = "";
+                // redirect to MainActivity
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+
+
     }
 
     public void SetValidation() {
