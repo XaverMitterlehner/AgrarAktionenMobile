@@ -1,6 +1,7 @@
 package htlperg.bhif17.agraraktionenmobilev2.login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     TextView register;
     TextView withoutLogin;
+    TextView poweredBy;
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
     CheckBox checkBox;
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         login = (Button) findViewById(R.id.login);
         register = (TextView) findViewById(R.id.register);
         withoutLogin = (TextView) findViewById(R.id.withoutLogin);
+        poweredBy = (TextView) findViewById(R.id.poweredBy);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
         checkBox = findViewById(R.id.checkBox);
@@ -194,6 +197,17 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+        poweredBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://zukunft.farm/"));
+                startActivity(intent);
+            }
+
+        });
+
 
 
 

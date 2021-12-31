@@ -17,8 +17,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="120dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:padding="10dp"
@@ -97,6 +97,7 @@
                     android:text="@string/create_new"
                     android:textColor="@color/anthracite"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/withoutLogin"
                     android:layout_width="match_parent"
@@ -122,9 +123,23 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-50dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/round_background"
         android:padding="15dp"
         android:src="@drawable/agraraktionen_a_large_scaled_login" />
+
+    <TextView
+        android:id="@+id/poweredBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/powered_by"
+        android:textColor="@color/grey"
+        android:textSize="10sp" />
 
 </RelativeLayout>
