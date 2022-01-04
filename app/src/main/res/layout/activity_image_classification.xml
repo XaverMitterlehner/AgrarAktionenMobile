@@ -59,5 +59,12 @@
         android:background="@color/white"
         android:layout_height="250dp"
         android:src="@drawable/image_placeholder" />
+    <Button
+        android:id="@+id/alreadyUploaded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/dark_green"
+        android:text="already used images" />
 
 </RelativeLayout>

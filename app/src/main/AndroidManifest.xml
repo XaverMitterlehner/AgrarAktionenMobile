@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".image.AlreadyUploadedImages"
+            android:exported="false" />
+        <activity
             android:name=".FilterActivity"
             android:parentActivityName=".MainActivity" />
         <activity

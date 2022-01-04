@@ -51,9 +51,10 @@ public class ImageClassification extends AppCompatActivity {
 
     TextView file_name;
     String file_path;
-    Button upload;
+    Button upload, alreadyUploadedButton;
     ProgressBar progressBar;
     ImageView image_View;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -105,6 +106,16 @@ public class ImageClassification extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         file_name = findViewById(R.id.filename);
         image_View = findViewById(R.id.imageView);
+
+        alreadyUploadedButton = findViewById(R.id.alreadyUploaded);
+
+        alreadyUploadedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ImageClassification.this, AlreadyUploadedImages.class);
+                startActivity(intent);
+            }
+        });
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
