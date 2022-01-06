@@ -3,8 +3,6 @@ package htlperg.bhif17.agraraktionenmobilev2;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import lombok.SneakyThrows;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder> implements Filterable {
@@ -136,7 +135,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder> implem
         return sortFilter;
     }
 
-    public Filter sortFilter = new Filter() {
+    private Filter sortFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -153,6 +152,54 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder> implem
 
             FilterResults results = new FilterResults();
             results.values = sortedList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            itemList.clear();
+            itemList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    public Filter getPriceFilter(){
+        return priceFilter;
+    }
+
+    private Filter priceFilter = new Filter() {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Item> priceList = new ArrayList<>();
+
+            boolean added = false;
+
+            int price1 = MyProperties.getInstance().priceFilter1;
+            int price2 = MyProperties.getInstance().priceFilter2;
+
+            int itemPrice;
+
+            if(price1 == 0 && price2 == 0) {
+                priceList.addAll(itemListFull);
+            } else {
+
+                for (Item item : itemListFull) {
+                    itemPrice = Integer.parseInt(item.getBruttopreis());
+                    if (itemPrice >= price1) {
+                        priceList.add(item);
+                        added = true;
+                    }
+                    if (added == false && itemPrice <= price2) {
+                        priceList.add(item);
+                    }
+                    added = false;
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = priceList;
 
             return results;
         }

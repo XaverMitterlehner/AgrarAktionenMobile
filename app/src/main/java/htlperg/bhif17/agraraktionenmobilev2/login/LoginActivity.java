@@ -7,7 +7,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,7 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
-import htlperg.bhif17.agraraktionenmobilev2.MyProperties;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -163,9 +162,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    Log.i(TAG, "valid login data set: " + login);
+                    Log.i(TAG, "login properties set to: " + login);
                     MyProperties.getInstance().userLoginData = loginData;
                     MyProperties.getInstance().selectedCategory = "";
+                    MyProperties.getInstance().priceFilter1 = 0;
+                    MyProperties.getInstance().priceFilter2 = 0;
                     LoginActivity.this.startActivity(myIntent);
                     loginData = "";
                 }

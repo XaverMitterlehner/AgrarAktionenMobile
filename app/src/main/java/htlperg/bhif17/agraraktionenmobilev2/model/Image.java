@@ -1,25 +1,23 @@
 package htlperg.bhif17.agraraktionenmobilev2.model;
 
-
 public class Image {
-    boolean alreadyUsed;
-    byte[] bytes;
-    String classification;
-    String classname;
-    int id;
-    double probability;
-    boolean usable;
-    String username;
+
+    private boolean alreadyUsed;
+    private byte[] bytes;
+    private String classification;
+    private int id;
+    private double probability;
+    private boolean usable;
+    private String username;
 
     public Image(){
 
     }
 
-    public Image(boolean alreadyUsed, byte[] bytes, String classification, String classname, int id, double probability, boolean usable, String username) {
+    public Image (boolean alreadyUsed, byte[] bytes, String classification, int id, double probability, boolean usable, String username) {
         this.alreadyUsed = alreadyUsed;
         this.bytes = bytes;
         this.classification = classification;
-        this.classname = classname;
         this.id = id;
         this.probability = probability;
         this.usable = usable;
@@ -48,14 +46,6 @@ public class Image {
 
     public void setClassification(String classification) {
         this.classification = classification;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
     }
 
     public int getId() {

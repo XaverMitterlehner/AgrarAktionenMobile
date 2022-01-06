@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/filterCardView1"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_margin="1dp"
         app:cardBackgroundColor="@color/dark_grey"
         app:cardElevation="3dp">
@@ -29,10 +29,38 @@
                 android:textSize="20dp" />
 
             <Spinner
-                android:id="@+id/categoryList"
+                android:id="@+id/categoryDropDown"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/faText"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="2dp"
+
+                android:background="@drawable/spinner_background"
+
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/categoryDropDown2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/categoryDropDown"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="2dp"
+
+                android:background="@drawable/spinner_background"
+
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/categoryDropDown3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/categoryDropDown2"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="2dp"
@@ -62,14 +90,13 @@
             android:id="@+id/faText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/filterCardView2"
             android:layout_margin="10dp"
             android:text="Preis:"
             android:textColor="@color/white"
             android:textSize="20dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceFilterInput1"
+            android:id="@+id/priceFilterInputLayout1"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,36 +105,35 @@
             android:layout_marginRight="5dp"
             android:hint="von"
             android:textColorHint="@color/white"
-            app:boxStrokeColor="@color/white"
-            app:boxStrokeWidth="2dp"
-            app:hintTextColor="@color/white">
+            app:boxStrokeColor="@color/aa_green"
+            app:boxStrokeWidth="2dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="70dp"
+                android:id="@+id/priceFilterEditText1"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="@color/aa_green"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceFilterInput2"
+            android:id="@+id/priceFilterInputLayout2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/faText2"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_toRightOf="@id/priceFilterInput1"
+            android:layout_toRightOf="@id/priceFilterInputLayout1"
             android:textColorHint="@color/white"
-            app:boxStrokeColor="@color/white"
-            app:boxStrokeWidth="2dp">
+            app:boxStrokeColor="@color/aa_green"
+            app:boxStrokeWidth="2dp"
+            android:hint="von">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="70dp"
+                android:id="@+id/priceFilterEditText2"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="@color/aa_green"
-                android:hint="bis"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -135,9 +161,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="30dp"
+        android:layout_margin="25dp"
         android:backgroundTint="@color/aa_green"
-        android:text="Filtern" />
+        android:text="Filter anwenden"
+        android:textSize="12dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/resetFilterButton"
@@ -145,9 +172,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="30dp"
+        android:layout_margin="25dp"
         android:backgroundTint="@color/aa_green"
-        android:text="Filter zurücksetzen" />
+        android:text="Filter zurücksetzen"
+        android:textSize="12dp"/>
 
 
 </RelativeLayout>

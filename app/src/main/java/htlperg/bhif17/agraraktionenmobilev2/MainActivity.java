@@ -28,18 +28,20 @@ import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import htlperg.bhif17.agraraktionenmobilev2.account.Account;
+import htlperg.bhif17.agraraktionenmobilev2.account.AccountActivity;
 import htlperg.bhif17.agraraktionenmobilev2.image.ImageClassification;
 import htlperg.bhif17.agraraktionenmobilev2.login.RegisterActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.Item;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.service.TimeService;
-import htlperg.bhif17.agraraktionenmobilev2.setting.Setting;
+import htlperg.bhif17.agraraktionenmobilev2.settings.SettingsActivity;
 import lombok.SneakyThrows;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+         *  setup action bar with logo and don't show project title
+         */
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.agraraktionen_logo_xsmall);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         refresh();
 
@@ -105,13 +114,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /**
-         *  setup action bar with logo and don't show project title
-         */
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.agraraktionen_logo_xsmall);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        /**
          *  set up round button in bottom right corner
          *  onClick -> ImageSearch which returns items with similar image for selected image
          */
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(new RecyclerAdapter(this, new ArrayList<Item>()));
 
         // set up swipe to refresh for reloading list from rest api into in recycler view
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     // download data from rest-api in async thread and send it to adapter
     void refresh() {
-        Log.i(TAG, "refreshing data...");
+        Log.i(TAG, "loading/refreshing data...");
         checkUrl();
         CompletableFuture
                 .supplyAsync(this::loadData)
@@ -173,12 +176,16 @@ public class MainActivity extends AppCompatActivity {
 
     // set up recycler view with parameter list
     void displayData(Item items[]) {
+
         itemList = new LinkedList<>();
         itemList.addAll(Arrays.asList(items));
 
         recyclerAdapter = new RecyclerAdapter(this, itemList);
-        spinnerOnClick(selectedItem);
         recyclerView.setAdapter(recyclerAdapter);
+
+        spinnerOnClick(selectedItem);
+        recyclerAdapter.getPriceFilter().filter("");
+
     }
 
     // download data from rest-api
@@ -251,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onSettingsPressed() {
         System.out.println("Settings opened!");
-        Intent intent = new Intent(MainActivity.this, Setting.class);
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
 
@@ -263,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else {
             System.out.println("Account opened!");
-            Intent intent = new Intent(MainActivity.this, Account.class);
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
             startActivity(intent);
         }
 

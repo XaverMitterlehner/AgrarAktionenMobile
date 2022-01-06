@@ -1,4 +1,4 @@
-package htlperg.bhif17.agraraktionenmobilev2;
+package htlperg.bhif17.agraraktionenmobilev2.model;
 
 public class MyProperties {
 
@@ -8,8 +8,8 @@ public class MyProperties {
 
     public String selectedCategory;
 
-    public String priceFilter1;
-    public String priceFilter2;
+    public int priceFilter1;
+    public int priceFilter2;
 
     protected MyProperties(){}
 

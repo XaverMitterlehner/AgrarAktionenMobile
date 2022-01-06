@@ -20,16 +20,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".image.AlreadyUploadedImages"
-            android:exported="false" />
+            android:name=".image.UploadedImagesActivity"
+            android:parentActivityName=".image.ImageClassification" />
         <activity
             android:name=".FilterActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".account.Account"
+            android:name=".account.AccountActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".setting.Setting"
+            android:name=".settings.SettingsActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".image.SimiliarItemsActivity"

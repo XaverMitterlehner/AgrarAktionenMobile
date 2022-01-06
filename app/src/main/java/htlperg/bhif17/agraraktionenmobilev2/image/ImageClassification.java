@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import htlperg.bhif17.agraraktionenmobilev2.MyProperties;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,12 +49,13 @@ public class ImageClassification extends AppCompatActivity {
     private static final int REQUEST_GALLERY = 200;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    TextView file_name;
+    TextView file_name, loadingText;
     String file_path;
-    Button upload, alreadyUploadedButton;
+    Button upload, usedImages;
     ProgressBar progressBar;
     ImageView image_View;
 
+    boolean finished;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -62,7 +63,7 @@ public class ImageClassification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_classification);
 
-        getSupportActionBar().setTitle("Bilderkennung");
+        getSupportActionBar().setTitle("image recognition");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Button takePhoto = findViewById(R.id.takePhoto);
@@ -106,16 +107,8 @@ public class ImageClassification extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         file_name = findViewById(R.id.filename);
         image_View = findViewById(R.id.imageView);
-
-        alreadyUploadedButton = findViewById(R.id.alreadyUploaded);
-
-        alreadyUploadedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ImageClassification.this, AlreadyUploadedImages.class);
-                startActivity(intent);
-            }
-        });
+        usedImages = findViewById(R.id.uploadedImagesButton);
+        loadingText = findViewById(R.id.loadingText);
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,10 +122,18 @@ public class ImageClassification extends AppCompatActivity {
             }
         });
 
+        usedImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ImageClassification.this, UploadedImagesActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void UploadFile() {
-        UploadTask uploadTask=new UploadTask();
+        UploadTask uploadTask = new UploadTask();
         uploadTask.execute(new String[]{file_path});
     }
 
@@ -274,6 +275,41 @@ public class ImageClassification extends AppCompatActivity {
 
             File file = new File(path);
 
+            finished = false;
+
+            new Thread(new Runnable()
+            {
+                int progress = 0;
+
+                public void run()
+                {
+                    //---do some work here---
+                    while (finished == false)
+                    {
+                        doSomeWork();
+                    }
+                }
+
+                //---do some long lasting work here---
+                private void doSomeWork()
+                {
+                    try {
+                        //---simulate doing some work---
+                        loadingText.setText("loading .");
+                        Thread.sleep(500);
+                        loadingText.setText("loading ..");
+                        Thread.sleep(500);
+                        loadingText.setText("loading ...");
+                        Thread.sleep(500);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+
+            }).start();
+
             /*ProgressDialog dialog = new ProgressDialog(ImageClassification.this);
             dialog.setMessage("loading");
             dialog.setIcon(R.drawable.agraraktionen_logo_small);
@@ -321,12 +357,10 @@ public class ImageClassification extends AppCompatActivity {
 
                         System.out.println(ImageClassification.class.getSimpleName() + ": " + response.toString());
 
-                        Intent intent = new Intent(ImageClassification.this, SimiliarItemsActivity.class);
-                        //dialog.hide();
-                        startActivity(intent);
-                        /*if (response.isSuccessful()) {
+                        finished = true;
 
-                        }*/
+                        Intent intent = new Intent(ImageClassification.this, SimiliarItemsActivity.class);
+                        startActivity(intent);
                     }
 
                 });

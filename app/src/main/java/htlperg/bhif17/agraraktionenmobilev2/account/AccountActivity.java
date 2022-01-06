@@ -18,23 +18,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
-import htlperg.bhif17.agraraktionenmobilev2.MyProperties;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import htlperg.bhif17.agraraktionenmobilev2.login.LoginActivity;
-import htlperg.bhif17.agraraktionenmobilev2.login.RegisterActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
-public class Account extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
+
     public final static String TAG = MainActivity.class.getSimpleName();
 
     Handler handler = new Handler(Looper.getMainLooper());
@@ -197,8 +196,9 @@ public class Account extends AppCompatActivity {
 
                 String networkResp = response.body().string();
 
+                Log.i("Account", networkResp);
 
-                    jsonObjectResp = parseJSONStringToJSONObject(networkResp);
+                jsonObjectResp = parseJSONStringToJSONObject(networkResp);
 
             } catch (Exception ex) {
                 String err = String.format("{\"result\":\"false\",\"error\":\"%s\"}", ex.getMessage());
