@@ -180,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
         itemList = new LinkedList<>();
         itemList.addAll(Arrays.asList(items));
 
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
         recyclerAdapter = new RecyclerAdapter(this, itemList);
         recyclerView.setAdapter(recyclerAdapter);
 

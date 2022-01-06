@@ -34,6 +34,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
+import htlperg.bhif17.agraraktionenmobilev2.account.AccountActivity;
+import htlperg.bhif17.agraraktionenmobilev2.login.RegisterActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import okhttp3.Call;
@@ -67,11 +70,22 @@ public class ImageClassification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_classification);
 
-        getSupportActionBar().setTitle("image recognition");
+        getSupportActionBar().setTitle("image search");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        //Check if user logged in or not
+        usedImages = findViewById(R.id.uploadedImagesButton);
+        String userData = MyProperties.getInstance().userLoginData;
+        if(userData == null || userData == ""){
+            System.out.println("without login!");
+            usedImages.setVisibility(View.GONE);
+        }else {
+            System.out.println("with login!");
+            usedImages.setVisibility(View.VISIBLE);
+        }
 
         Button takePhoto = findViewById(R.id.takePhoto);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +124,6 @@ public class ImageClassification extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         file_name = findViewById(R.id.filename);
         image_View = findViewById(R.id.imageView);
-        usedImages = findViewById(R.id.uploadedImagesButton);
         loadingText = findViewById(R.id.loadingText);
 
         loadingText.setText("");
@@ -306,6 +319,8 @@ public class ImageClassification extends AppCompatActivity {
                 }
 
             }).start();
+
+
 
             /*ProgressDialog dialog = new ProgressDialog(ImageClassification.this);
             dialog.setMessage("loading");
