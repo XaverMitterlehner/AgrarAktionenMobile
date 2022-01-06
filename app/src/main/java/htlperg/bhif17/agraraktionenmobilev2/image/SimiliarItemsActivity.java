@@ -56,7 +56,7 @@ public class SimiliarItemsActivity extends AppCompatActivity {
         itemList.addAll(Arrays.asList(items));
 
         if(itemList.isEmpty()){
-            resultMessage.setVisibility(View.VISIBLE);
+            getResultMessage();
         }
 
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(SimiliarItemsActivity.this, itemList);
@@ -80,10 +80,15 @@ public class SimiliarItemsActivity extends AppCompatActivity {
                     .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))
                     .readValue(url, Item[].class));
         } catch (Exception e) {
+            getResultMessage();
             Log.e(TAG, "Failed to download", e);
         }
         Log.i(TAG, "Downloaded similar items succesfully");
         return items;
+    }
+
+    void getResultMessage(){
+        resultMessage.setVisibility(View.VISIBLE);
     }
 
 }

@@ -69,13 +69,13 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageViewHolder> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Optional<Image[]> images = Optional.ofNullable(null);
+                Optional<Root> images = Optional.ofNullable(null);
                 Log.i("ImageRecyclerView", "tagging image as usable");
                 try {
                     images = Optional.of(new ObjectMapper()
                             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                             .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))
-                            .readValue(new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/image/" + imageList.get(holder.getAdapterPosition()).getId()), Image[].class));
+                            .readValue(new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/image/" + imageList.get(holder.getAdapterPosition()).getId()), Root.class));
                 } catch (Exception e) {
                     Log.e("ImageRecyclerView", "Failed", e);
                 }
@@ -88,6 +88,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 
     }
 
+}
+
+class Root {
+    public Image [] images;
 }
 
 class ImageViewHolder extends RecyclerView.ViewHolder {

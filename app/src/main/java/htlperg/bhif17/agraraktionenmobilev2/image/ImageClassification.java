@@ -15,9 +15,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,8 @@ import okhttp3.Response;
 
 public class ImageClassification extends AppCompatActivity {
 
+    public final static String TAG = ImageClassification.class.getSimpleName();
+
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final int REQUEST_GALLERY = 200;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -66,19 +70,20 @@ public class ImageClassification extends AppCompatActivity {
         getSupportActionBar().setTitle("image recognition");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         Button takePhoto = findViewById(R.id.takePhoto);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT>=23){
-                    if(checkPermission()){
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission()) {
                         photoTaker();
-                    }
-                    else{
+                    } else {
                         requestPermission();
                     }
-                }
-                else{
+                } else {
                     photoTaker();
                 }
             }
@@ -89,15 +94,13 @@ public class ImageClassification extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //check permission greater than equal to marshmeellow we used run time permission
-                if(Build.VERSION.SDK_INT>=23){
-                    if(checkPermission()){
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission()) {
                         filePicker();
-                    }
-                    else{
+                    } else {
                         requestPermission();
                     }
-                }
-                else{
+                } else {
                     filePicker();
                 }
             }
@@ -110,13 +113,14 @@ public class ImageClassification extends AppCompatActivity {
         usedImages = findViewById(R.id.uploadedImagesButton);
         loadingText = findViewById(R.id.loadingText);
 
+        loadingText.setText("");
+
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(file_path!=null){
+                if (file_path != null) {
                     UploadFile();
-                }
-                else{
+                } else {
                     Toast.makeText(ImageClassification.this, "Please Select File First", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -137,7 +141,7 @@ public class ImageClassification extends AppCompatActivity {
         uploadTask.execute(new String[]{file_path});
     }
 
-    private void photoTaker(){
+    private void photoTaker() {
 
         Toast.makeText(ImageClassification.this, "Camera opened", Toast.LENGTH_SHORT).show();
         //Intent takePictureIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -151,32 +155,30 @@ public class ImageClassification extends AppCompatActivity {
 
     }
 
-    private void filePicker(){
+    private void filePicker() {
 
         //.Now Permission Working
         Toast.makeText(ImageClassification.this, "File Picker Call", Toast.LENGTH_SHORT).show();
         //Let's Pick File
-        Intent opengallery=new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent opengallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         opengallery.setType("image/*");
-        startActivityForResult(opengallery,REQUEST_GALLERY);
+        startActivityForResult(opengallery, REQUEST_GALLERY);
     }
 
 
-    private void requestPermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(ImageClassification.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(ImageClassification.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(ImageClassification.this, "Please Give Permission to Upload File", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            ActivityCompat.requestPermissions(ImageClassification.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
+        } else {
+            ActivityCompat.requestPermissions(ImageClassification.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
     }
 
-    private boolean checkPermission(){
-        int result= ContextCompat.checkSelfPermission(ImageClassification.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if(result== PackageManager.PERMISSION_GRANTED){
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(ImageClassification.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -184,12 +186,11 @@ public class ImageClassification extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
-                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(ImageClassification.this, "Permission Successfull", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Toast.makeText(ImageClassification.this, "Permission Failed", Toast.LENGTH_SHORT).show();
                 }
         }
@@ -209,7 +210,7 @@ public class ImageClassification extends AppCompatActivity {
 
         }
 
-        if(requestCode==REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             //Get Bitmap from picture
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             image_View.setImageBitmap(photo);
@@ -229,21 +230,21 @@ public class ImageClassification extends AppCompatActivity {
 
 
     }
-    public String getRealPathFromUri(Uri uri,Activity activity){
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor=activity.getContentResolver().query(uri,proj,null,null,null);
-        if(cursor==null){
+
+    public String getRealPathFromUri(Uri uri, Activity activity) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = activity.getContentResolver().query(uri, proj, null, null, null);
+        if (cursor == null) {
             return uri.getPath();
-        }
-        else{
+        } else {
             cursor.moveToFirst();
-            int id=cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            int id = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(id);
         }
     }
 
 
-    public class UploadTask extends AsyncTask<String,String,String> {
+    public class UploadTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPostExecute(String s) {
@@ -271,28 +272,25 @@ public class ImageClassification extends AppCompatActivity {
             }
         }
 
-        private boolean uploadFile (String path) {
+        private boolean uploadFile(String path) {
 
             File file = new File(path);
 
             finished = false;
 
-            new Thread(new Runnable()
-            {
+            new Thread(new Runnable() {
                 int progress = 0;
 
-                public void run()
-                {
+                public void run() {
                     //---do some work here---
-                    while (finished == false)
-                    {
+                    while (finished == false) {
                         doSomeWork();
                     }
+                    loadingText.setText("");
                 }
 
                 //---do some long lasting work here---
-                private void doSomeWork()
-                {
+                private void doSomeWork() {
                     try {
                         //---simulate doing some work---
                         loadingText.setText("loading .");
@@ -301,8 +299,7 @@ public class ImageClassification extends AppCompatActivity {
                         Thread.sleep(500);
                         loadingText.setText("loading ...");
                         Thread.sleep(500);
-                    } catch (InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     return;
@@ -319,14 +316,13 @@ public class ImageClassification extends AppCompatActivity {
 
             try {
                 String myProperties = MyProperties.getInstance().userLoginData;
-                if(myProperties == null){
+                if (myProperties == null) {
                     myProperties = "";
                 }
                 RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("selectedFile", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
                         .addFormDataPart("userName", myProperties)
                         .build();
-
 
 
                 Request request = new Request.Builder()
@@ -344,7 +340,7 @@ public class ImageClassification extends AppCompatActivity {
                         .readTimeout(60, TimeUnit.SECONDS)
                         .build();
 
-                System.out.println("Waiting for response ...");
+                Log.i(TAG, "Waiting for response ...");
 
                 client.newCall(request).enqueue(new Callback() {
                     @Override
@@ -358,6 +354,8 @@ public class ImageClassification extends AppCompatActivity {
                         System.out.println(ImageClassification.class.getSimpleName() + ": " + response.toString());
 
                         finished = true;
+
+                        loadingText.setText("");
 
                         Intent intent = new Intent(ImageClassification.this, SimiliarItemsActivity.class);
                         startActivity(intent);
