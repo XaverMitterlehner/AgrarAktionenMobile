@@ -10,4 +10,3 @@ public class Shop {
     public int shopId;
 
 }
-

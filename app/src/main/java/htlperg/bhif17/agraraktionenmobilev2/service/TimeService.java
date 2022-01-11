@@ -33,10 +33,11 @@ import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
 import htlperg.bhif17.agraraktionenmobilev2.R;
 import htlperg.bhif17.agraraktionenmobilev2.login.LoginActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.CheckSum;
+import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 
 public class TimeService extends Service {
     // constant
-    public static final long NOTIFY_INTERVAL = 60 * 1000; // 10 seconds
+    public static final long NOTIFY_INTERVAL = 5 * 1000; // 10 seconds
     public final static String TAG = MainActivity.class.getSimpleName();
     private static final String CHANNEL_ID = "1000";
     Handler handler = new Handler(Looper.getMainLooper());
@@ -115,7 +116,18 @@ public class TimeService extends Service {
             checkSumList = new LinkedList<>();
             checkSumList.addAll(Arrays.asList(checkSums));
             for(CheckSum checkSum: checkSumList){
-                if(checkSum.isChanged()){
+                if(!checkSum.isChanged()){
+
+                    String username = "";
+                    try{
+                        username = MyProperties.getInstance().user.getUsername();
+                        if(username == "" || username.isEmpty() || username.equals("")){
+                            username = "Benutzer";
+                        }
+                    }catch (Exception e){
+                        //System.err.println("Error: " + e);
+                    }
+
 
                     //Notification Build
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -124,9 +136,10 @@ public class TimeService extends Service {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                             .setSmallIcon(R.drawable.agraraktionen_a_large_scaled)
                             .setContentTitle("Agrar Aktionen Mobile")
-                            .setContentText("Something new is available now!")
+                            .setContentText("Schau dir doch jetzt die neuen Produkte an!")
                             .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText("Something new is available now!" + "\n" + "Changed: " + getDateTime()))
+                                   //.bigText("Schau dir die neuen Produkte jetzt an " + "\n" + "Wann: " + getDateTime()))
+                                    .bigText("Hi " + username + " es sind neue Artikel verfügbar!"))
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             // Set the intent that will fire when the user taps the notification
                             .setContentIntent(pendingIntent)
@@ -141,7 +154,7 @@ public class TimeService extends Service {
 
 
                 }else{
-                    //Toast.makeText(getApplicationContext(), "Nothing changed!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Nothing changed!" + MyProperties.getInstance().user.getUsername(), Toast.LENGTH_SHORT).show();
                 }
 
             }

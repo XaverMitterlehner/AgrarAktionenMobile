@@ -2,6 +2,7 @@ package htlperg.bhif17.agraraktionenmobilev2.login;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
@@ -26,10 +28,13 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import htlperg.bhif17.agraraktionenmobilev2.MainActivity;
 import htlperg.bhif17.agraraktionenmobilev2.model.MyProperties;
 import htlperg.bhif17.agraraktionenmobilev2.R;
+import htlperg.bhif17.agraraktionenmobilev2.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,10 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
     CheckBox checkBox;
-    static String loginData;
     Menu menu;
-
-
+    /** User Data in MyProperties **/
+    Handler handler = new Handler(Looper.getMainLooper());
+    static String loginData;
+    static String userId;
+    public static User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +159,25 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SetValidation();
                 newAction();
+                saveUserData();
                 checkBox.setChecked(false);
+            }
+
+            private void saveUserData() {
+                /** Set MyProperties which actual API Data **/
+                try{
+                    if(MyProperties.getInstance().userLoginData.equals("")){
+                        System.out.println("Login Data are empty!");
+                    }else{
+                        String storedUser = MyProperties.getInstance().userLoginData;
+                        String primSubId = storedUser.substring(storedUser.indexOf(":") + 1);
+                        String secondSubId = primSubId.substring(primSubId.indexOf(":") + 1);
+                        userId = secondSubId.substring(0, secondSubId.indexOf(","));
+                        refresh();
+                    }
+                }catch (Exception e){
+                    System.err.println("Error:" + e);
+                }
             }
 
             private void newAction() {
@@ -171,6 +196,32 @@ public class LoginActivity extends AppCompatActivity {
                     loginData = "";
                 }
 
+            }
+            /** Save User settings from API in MyProperties **/
+            void refresh() {
+                CompletableFuture
+                        .supplyAsync(this::loadData)
+                        .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> displayData(doPosts))));
+            }
+            void displayData(User downloadedUser) {
+                //maxSystem.out.println(downloadedUser);
+
+                /** Set User Data from API **/
+                MyProperties.getInstance().user = downloadedUser;
+
+            }
+            // download data from rest-api
+            Optional<User> loadData() {
+                Optional<User> users = Optional.ofNullable(null);
+                Log.i(TAG, "download category names from api...");
+                try {
+                    URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user/" + userId);
+                    users = Optional.of(new ObjectMapper().readValue(url, User.class));
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to download", e);
+                }
+                Log.i(TAG, "downloaded users successfully");
+                return users;
             }
 
         });
@@ -195,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
                 // redirect to MainActivity
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+
             }
 
         });

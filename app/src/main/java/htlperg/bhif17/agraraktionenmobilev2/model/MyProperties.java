@@ -11,6 +11,8 @@ public class MyProperties {
     public int priceFilter1;
     public int priceFilter2;
 
+    public User user;
+
     protected MyProperties(){}
 
     public static synchronized MyProperties getInstance() {
