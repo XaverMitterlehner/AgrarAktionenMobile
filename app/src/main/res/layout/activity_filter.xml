@@ -76,7 +76,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/filterCardView2"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="150dp"
         android:layout_below="@id/filterCardView1"
         android:layout_margin="1dp"
         app:cardBackgroundColor="@color/dark_grey"
@@ -128,7 +128,7 @@
             android:textColorHint="@color/white"
             app:boxStrokeColor="@color/aa_green"
             app:boxStrokeWidth="2dp"
-            android:hint="von">
+            android:hint="bis">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/priceFilterEditText2"
@@ -137,6 +137,16 @@
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/priceFilterInfoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/priceFilterInputLayout2"
+            android:layout_margin="10dp"
+            android:textColor="@color/red"
+            android:text="Eingabe überprüfen!"
+            android:visibility="invisible"/>
 
         <!--<com.google.android.material.slider.RangeSlider
             android:id="@+id/priceSlider"

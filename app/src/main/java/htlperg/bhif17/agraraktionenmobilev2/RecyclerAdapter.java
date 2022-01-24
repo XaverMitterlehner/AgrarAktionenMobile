@@ -174,10 +174,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder> implem
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Item> priceList = new ArrayList<>();
 
-            boolean added = false;
+            //boolean added = false;
 
             int price1 = MyProperties.getInstance().priceFilter1;
             int price2 = MyProperties.getInstance().priceFilter2;
+
+            System.out.println(price1 + " - " + price2);
 
             int itemPrice;
 
@@ -186,15 +188,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder> implem
             } else {
 
                 for (Item item : itemListFull) {
-                    itemPrice = Integer.parseInt(item.getBruttopreis());
-                    if (itemPrice >= price1) {
+                    String bruttopreis = item.getBruttopreis();
+                    bruttopreis = bruttopreis.replace(",", ".");
+                    //System.out.println("String Price: "+bruttopreis);
+                    double temp = Double.parseDouble(bruttopreis);
+                    //System.out.println("Double Price: "+temp);
+                    itemPrice = (int)temp;
+                    if (itemPrice >= price1 && itemPrice <= price2) {
                         priceList.add(item);
-                        added = true;
+                        System.out.println(itemPrice);
+                        //added = true;
                     }
-                    if (added == false && itemPrice <= price2) {
+                    /*if (added == false && itemPrice <= price2) {
                         priceList.add(item);
                     }
-                    added = false;
+                    added = false;*/
                 }
             }
 

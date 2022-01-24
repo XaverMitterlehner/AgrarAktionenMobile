@@ -95,8 +95,9 @@
                 android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/button_gradient"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/aa_green"
                 android:text="Save"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
@@ -106,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/button_gradient_red"
+                android:backgroundTint="@color/aa_green"
                 android:text="Logout"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />

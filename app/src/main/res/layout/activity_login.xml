@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/anthracite"
     android:gravity="center"
     android:padding="16dp"
     tools:context=".login.LoginActivity">
 
     <RelativeLayout
+        android:id="@+id/loginFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="370dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="120dp"
             android:layout_marginEnd="5dp"
@@ -47,7 +48,8 @@
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingStart="5dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,7 +69,8 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:paddingStart="5dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,37 +78,27 @@
                     android:id="@+id/checkBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Licence Agreement" />
+                    android:text="Lizenzvereinbarung" />
 
                 <Button
                     android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/button_gradient"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/login"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    tools:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="@string/create_new"
-                    android:textColor="@color/anthracite"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/withoutLogin"
+                <Button
+                    android:id="@+id/register"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:backgroundTint="@color/aa_green"
                     android:gravity="center"
-                    android:text="@string/without_login"
-                    android:textColor="@color/grey"
+                    android:text="@string/create_new"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -115,18 +108,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:visibility="invisible" />
+
         </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/profile"
-        android:layout_width="100dp"
+        android:layout_width="160dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/round_background"
-        android:padding="15dp"
-        android:src="@drawable/agraraktionen_a_large_scaled_login" />
+        android:layout_marginTop="20dp"
+        android:src="@drawable/agraraktionen_logo_small" />
+        <!--android:background="@drawable/round_background"
+        android:padding="15dp"-->
+
+
+    <Button
+        android:id="@+id/withoutLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginFrame"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/dark_grey"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:text="@string/without_login" />
 
     <TextView
         android:id="@+id/poweredBy"
@@ -140,6 +147,6 @@
         android:gravity="center"
         android:text="@string/powered_by"
         android:textColor="@color/grey"
-        android:textSize="10sp" />
+        android:textSize="13sp" />
 
 </RelativeLayout>

@@ -4,14 +4,14 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="Suche"
         android:iconifiedByDefault="false"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
     -<item
         android:id="@+id/action_settings"
         android:orderInCategory="20"
-        android:title="Settings"
+        android:title="Einstellungen"
         app:showAsAction="never" />
     -<item
         android:id="@+id/action_account"
@@ -21,7 +21,7 @@
     -<item
         android:id="@+id/logout"
         android:orderInCategory="20"
-        android:title="Logout"
+        android:title="Ausloggen"
         android:visible="false"
         app:showAsAction="never" />
 </menu>

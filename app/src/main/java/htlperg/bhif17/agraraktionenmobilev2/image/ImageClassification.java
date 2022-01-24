@@ -70,7 +70,7 @@ public class ImageClassification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_classification);
 
-        getSupportActionBar().setTitle("image search");
+        getSupportActionBar().setTitle("Bild-Suche");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

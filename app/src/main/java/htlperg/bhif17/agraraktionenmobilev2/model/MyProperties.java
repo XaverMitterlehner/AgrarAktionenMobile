@@ -7,6 +7,8 @@ public class MyProperties {
     public String userLoginData;
 
     public String selectedCategory;
+    public String category2;
+    public String category3;
 
     public int priceFilter1;
     public int priceFilter2;

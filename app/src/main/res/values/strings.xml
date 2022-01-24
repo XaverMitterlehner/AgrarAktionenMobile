@@ -1,21 +1,21 @@
 <resources>
     <string name="app_name">Agrar Aktionen</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_password">Passwort</string>
     <string name="login">Login</string>
-    <string name="create_new">Click here for register</string>
-    <string name="without_login">Continue without login</string>
-    <string name="powered_by">Powered by zukunft.farm</string>
-    <string name="not_register">Not Register?</string>
+    <string name="create_new">neu registrieren</string>
+    <string name="without_login">ohne Login fortfahren</string>
+    <string name="powered_by">von zukunft.farm</string>
+    <string name="not_register">zum Login</string>
     <string name="name">Name</string>
     <string name="phone_number">Phone Number</string>
-    <string name="register">Register</string>
-    <string name="name_error">Please enter your name</string>
+    <string name="register">registrieren</string>
+    <string name="name_error">Bitte Name eingeben</string>
     <string name="phone_error">Please enter your phone number</string>
-    <string name="email_error">Please enter your email address</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="password_error">Please enter a password</string>
-    <string name="error_invalid_password">Please enter a minimum password of 6 characters</string>
+    <string name="email_error">Bitte Email eingeben</string>
+    <string name="error_invalid_email">Keine gültige Email-Adresse!</string>
+    <string name="password_error">Bitte Passwort eingeben</string>
+    <string name="error_invalid_password">Bitte gib ein Passwort mit mindestens 6 Zeichen ein</string>
     <string name="title_activity_similar_images">SimilarImagesActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

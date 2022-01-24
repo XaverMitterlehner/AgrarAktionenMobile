@@ -3,6 +3,7 @@ package htlperg.bhif17.agraraktionenmobilev2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,7 +38,7 @@ public class FilterActivity extends AppCompatActivity {
     Spinner spinner1, spinner2, spinner3;
     Button submitButton, resetButton;
 
-    TextView categoryText;
+    TextView categoryText, priceFilterInfoText;
     Boolean selected = false;
 
     TextInputLayout price1InputLayout, price2InputLayout;
@@ -60,7 +61,7 @@ public class FilterActivity extends AppCompatActivity {
         spinner3 = findViewById(R.id.categoryDropDown3);
 
         categoryText = findViewById(R.id.faText);
-
+        priceFilterInfoText = findViewById(R.id.priceFilterInfoText);
 
         refresh();
 
@@ -70,6 +71,18 @@ public class FilterActivity extends AppCompatActivity {
         CompletableFuture
                 .supplyAsync(this::loadData)
                 .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> setFiltering(doPosts))));
+    }
+
+    void refresh2(){
+        CompletableFuture
+                .supplyAsync(this::loadSecondCategory)
+                .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> setSecondCategory(doPosts))));
+    }
+
+    void refresh3(){
+        CompletableFuture
+                .supplyAsync(this::loadThirdCategory)
+                .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> setThirdCategory(doPosts))));
     }
 
     void setFirstCategory(String categories[]){
@@ -90,7 +103,7 @@ public class FilterActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String cat = spinner1.getSelectedItem().toString();
                 MyProperties.getInstance().selectedCategory = cat;
-                categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + ")");
+                //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + ")");
                 refresh2();
             }
 
@@ -102,27 +115,32 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
-    void refresh2(){
-        CompletableFuture
-                .supplyAsync(this::loadSecondCategory)
-                .thenAccept(posts -> posts.ifPresent(doPosts -> handler.post(() -> setSecondCategory(doPosts))));
-    }
-
     void setSecondCategory(String categories2[]){
 
         ArrayAdapter spinnerAdapter2 = new ArrayAdapter(this, R.layout.spinner_item, categories2);
         spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(spinnerAdapter2);
 
-        spinner2.setEnabled(false);
+        int position = Arrays.asList(categories2).indexOf(MyProperties.getInstance().category2);
+
+        if (MyProperties.getInstance().category2 == "") {
+            spinner2.setSelection(0, false);
+        } else {
+            spinner2.setSelection(position, false);
+        }
+
+        //spinner2.setEnabled(false);
 
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (selected){
-                    categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + "/" + spinner2.getSelectedItem().toString() + ")");
-                }
-                selected = true;
+                //if (selected){
+                    String cat = spinner2.getSelectedItem().toString();
+                    MyProperties.getInstance().category2 = cat;
+                    //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + "/" + spinner2.getSelectedItem().toString() + ")");
+                    refresh3();
+                //}
+                //selected = true;
             }
 
             @Override
@@ -131,16 +149,40 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: implement thrid and fourth category
+    }
 
-/*
-        int position = Arrays.asList(categories2).indexOf(MyProperties.getInstance().selectedCategory);
+    void setThirdCategory(String categories3[]){
+        ArrayAdapter spinnerAdapter3 = new ArrayAdapter(this, R.layout.spinner_item, categories3);
+        spinnerAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner3.setAdapter(spinnerAdapter3);
 
-        if (MyProperties.getInstance().selectedCategory == "") {
-            spinner2.setSelection(0, false);
+        int position = Arrays.asList(categories3).indexOf(MyProperties.getInstance().category3);
+
+        if (MyProperties.getInstance().category3 == "") {
+            spinner3.setSelection(0, false);
         } else {
-            spinner2.setSelection(position, false);
-        }*/
+            spinner3.setSelection(position, false);
+        }
+
+        //spinner2.setEnabled(false);
+
+        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //if (selected){
+                String cat = spinner3.getSelectedItem().toString();
+                MyProperties.getInstance().category3 = cat;
+                //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + "/" + spinner2.getSelectedItem().toString() + ")");
+                refresh3();
+                //}
+                //selected = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -177,6 +219,11 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyProperties.getInstance().selectedCategory = "";
+                MyProperties.getInstance().category2 = "";
+                MyProperties.getInstance().category3 = "";
+
+                MyProperties.getInstance().priceFilter2 = 0;
+                MyProperties.getInstance().priceFilter1 = 0;
                 startActivity(intent);
             }
         });
@@ -189,6 +236,12 @@ public class FilterActivity extends AppCompatActivity {
 
         price2EditText = findViewById(R.id.priceFilterEditText2);
         price2InputLayout = findViewById(R.id.priceFilterInputLayout2);
+
+        price1EditText.setTextColor(Color.WHITE);
+        price2EditText.setTextColor(Color.WHITE);
+
+        price1EditText.setText(""+MyProperties.getInstance().priceFilter1);
+        price2EditText.setText(""+MyProperties.getInstance().priceFilter2);
 
         price1EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -203,7 +256,16 @@ public class FilterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                MyProperties.getInstance().priceFilter1 = Integer.parseInt(s.toString());
+                String input = s.toString();
+                boolean isNumeric =  input.matches("[+-]?\\d*(\\.\\d+)?");
+                if(!input.equals("") && isNumeric){
+                    priceFilterInfoText.setVisibility(View.INVISIBLE);
+                    MyProperties.getInstance().priceFilter1 = Integer.parseInt(input);
+                    Log.i(TAG, "Filter1: "+MyProperties.getInstance().priceFilter1);
+                } else {
+                    priceFilterInfoText.setVisibility(View.VISIBLE);
+                }
+
             }
         });
 
@@ -220,7 +282,15 @@ public class FilterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                MyProperties.getInstance().priceFilter2 = Integer.parseInt(s.toString());
+                String input = s.toString();
+                boolean isNumeric =  input.matches("[+-]?\\d*(\\.\\d+)?");
+                if(!input.equals("") && isNumeric){
+                    priceFilterInfoText.setVisibility(View.INVISIBLE);
+                    MyProperties.getInstance().priceFilter2 = Integer.parseInt(input);
+                    Log.i(TAG, "Filter2: "+MyProperties.getInstance().priceFilter2);
+                } else {
+                    priceFilterInfoText.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -249,6 +319,19 @@ public class FilterActivity extends AppCompatActivity {
             Log.e(TAG, "Failed to download", e);
         }
         Log.i(TAG, "downloaded  second category names successfully");
+        return categories;
+    }
+
+    Optional<String[]> loadThirdCategory() {
+        Optional<String[]> categories = Optional.ofNullable(null);
+        Log.i(TAG, "download third category names from api...");
+        try {
+            URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170011/api/categories/getThirdCategories/"+MyProperties.getInstance().selectedCategory+"/"+MyProperties.getInstance().category2);
+            categories = Optional.of(new ObjectMapper().readValue(url, String[].class));
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to download", e);
+        }
+        Log.i(TAG, "downloaded  third category names successfully");
         return categories;
     }
 

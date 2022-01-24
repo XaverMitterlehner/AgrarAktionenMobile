@@ -155,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
         if (MyProperties.getInstance().selectedCategory != "") {
             String cat = MyProperties.getInstance().selectedCategory;
             String urlString = "https://student.cloud.htl-leonding.ac.at/20170033/api/categories/" + cat;
+            if(MyProperties.getInstance().category2 != ""){
+                urlString = urlString+"/"+MyProperties.getInstance().category2;
+            }
+            if(MyProperties.getInstance().category3 != ""){
+                urlString = urlString+"/"+MyProperties.getInstance().category3;
+            }
             url = new URL(urlString);
             MyProperties.getInstance().selectedCategory = cat;
         } else {
@@ -186,8 +192,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
 
         spinnerOnClick(selectedItem);
-        recyclerAdapter.getPriceFilter().filter("");
-
+        //recyclerAdapter.getPriceFilter().filter("");
     }
 
     // download data from rest-api
@@ -209,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     // sort list in recycler view triggered by spinner.onItemSelected()
     public void spinnerOnClick(int position) {
         recyclerAdapter.getSortFilter().filter(spinnerOptions[position]);
+        recyclerAdapter.getPriceFilter().filter("");
     }
 
     // set up back button in action bar
