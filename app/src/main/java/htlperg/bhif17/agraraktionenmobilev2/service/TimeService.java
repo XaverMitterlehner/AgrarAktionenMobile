@@ -165,7 +165,7 @@ public class TimeService extends Service {
             Optional<CheckSum[]> checksum = Optional.ofNullable(null);
             //Log.i(TAG, "download checksum from api...");
             try {
-                //URL url = new URL("http://10.0.2.2:8080/api/checksum");
+                //URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/checksum");
                 URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/checksum");
                 checksum = Optional.of(new ObjectMapper()
                         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)

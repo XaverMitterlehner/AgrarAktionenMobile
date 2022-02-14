@@ -74,7 +74,7 @@ public class SimiliarItemsActivity extends AppCompatActivity {
         Log.i(TAG, "Download similar items from api...");
         try {
             URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/similarItems/getAll");
-            //URL url = new URL("http://10.0.2.2:8080/api/similarItems");
+            //URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/similarItems");
             items = Optional.of(new ObjectMapper()
                     .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                     .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))

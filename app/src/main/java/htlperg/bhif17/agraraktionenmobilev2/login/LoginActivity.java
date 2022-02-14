@@ -1,6 +1,7 @@
 package htlperg.bhif17.agraraktionenmobilev2.login;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Looper;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         passError = (TextInputLayout) findViewById(R.id.passError);
         checkBox = findViewById(R.id.checkBox);
 
-        login.setVisibility(View.INVISIBLE);
+        login.setEnabled(false);
 
         //Set user data null to provide system from crashing because of the previous login user data
         MyProperties.getInstance().userLoginData = null;
@@ -78,9 +79,11 @@ public class LoginActivity extends AppCompatActivity {
                 if ( isChecked )
                 {
                     sendPost(email, password);
-                    login.setVisibility(View.VISIBLE);
+                    login.setEnabled(true);
+                    login.setBackgroundColor(getResources().getColor(R.color.aa_green));
                 }else{
-                    login.setVisibility(View.INVISIBLE);
+                    login.setEnabled(false);
+                    login.setBackgroundColor(Color.LTGRAY);
                 }
 
 
@@ -93,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
 
                             URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user/getUserByEmailAndPassword");
-                            //URL url = new URL("http://10.0.2.2:8080/api/user/getUserByEmailAndPassword");
+                            //URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user/getUserByEmailAndPassword");
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("POST");
                             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");

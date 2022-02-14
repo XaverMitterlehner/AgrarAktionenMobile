@@ -4,31 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/anthracite"
+    android:orientation="vertical"
     tools:context=".DetailActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="3dp"
         android:background="@drawable/detail_image_border"
-        android:padding="10dip"
-        android:layout_margin="3dp">
+        android:orientation="vertical"
+        android:padding="10dip">
+
         <ImageView
             android:id="@+id/detailImage"
-            android:adjustViewBounds="true"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center"
-            android:layout_height="605px"
             android:layout_width="605px"
-            android:padding="1dp"></ImageView>
+            android:layout_height="605px"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:padding="1dp"
+            android:scaleType="centerCrop"></ImageView>
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="335dp">
+        android:layout_height="345dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,34 +37,34 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/detailBezeichnung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Bezeichnung"
-                android:layout_margin="10dp"
-                android:textSize="14sp"
                 android:textColor="@color/white"
-                android:id="@+id/detailBezeichnung"/>
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/detailHersteller"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Hersteller"
-                android:layout_margin="10dp"
-                android:textSize="14sp"
                 android:textColor="@color/white"
-                android:id="@+id/detailHersteller"/>
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/detailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Description"
-                android:layout_margin="10dp"
-                android:textSize="14sp"
                 android:textColor="@color/white"
-                android:id="@+id/detailDescription">
+                android:textSize="14sp">
 
             </TextView>
 
@@ -74,15 +75,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
+        android:layout_gravity="bottom"
         android:weightSum="1">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:orientation="vertical"
             android:layout_weight="0.90"
+            android:orientation="vertical"
             android:paddingTop="18dp"
             android:weightSum="1">
 
@@ -90,26 +91,26 @@
                 android:id="@+id/detailPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:layout_marginLeft="22dp"
+                android:layout_weight="0.5"
+                android:maxLines="1"
+                android:orientation="vertical"
                 android:text="Price"
                 android:textColor="@color/aa_green"
                 android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_weight="0.5"
-                android:orientation="vertical"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detailRealPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:layout_marginLeft="25dp"
+                android:layout_weight="0.5"
+                android:maxLines="1"
+                android:orientation="vertical"
                 android:text="RealPrice"
                 android:textColor="@color/red"
-                android:textSize="18sp"
-                android:layout_weight="0.5"
-                android:orientation="vertical"/>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -117,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_weight="0.10"
             android:gravity="end|bottom"
-            android:orientation="vertical"
-            android:layout_weight="0.10">
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buyButton"
@@ -127,13 +128,13 @@
                 android:layout_height="53dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginRight="27dp"
+                android:autoLink="web"
                 android:background="@color/aa_green"
+                android:clickable="true"
                 android:text="zum Shop"
                 android:textColor="@color/white"
                 android:textSize="17sp"
-                android:textStyle="bold"
-                android:autoLink="web"
-                android:clickable="true"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

@@ -341,8 +341,8 @@ public class ImageClassification extends AppCompatActivity {
 
 
                 Request request = new Request.Builder()
-                        //.url("http://10.0.2.2:8080/api/image/upload")
-                        //.url("http://10.0.2.2:8080/api/upload/imageAndData")
+                        //.url("https://student.cloud.htl-leonding.ac.at/20170033/api/image/upload")
+                        //.url("https://student.cloud.htl-leonding.ac.at/20170033/api/upload/imageAndData")
                         .url("https://student.cloud.htl-leonding.ac.at/20170033/api/upload/imageAndData")
                         .post(requestBody)
                         .build();
@@ -373,6 +373,8 @@ public class ImageClassification extends AppCompatActivity {
                         loadingText.setText("");
 
                         Intent intent = new Intent(ImageClassification.this, SimiliarItemsActivity.class);
+                        //Intent intent = new Intent(ImageClassification.this, MainActivity.class);
+                        //intent.putExtra("fromImage", true);
                         startActivity(intent);
                     }
 

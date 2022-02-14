@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerAdapter recyclerAdapter;
     Spinner spinner;
     Button filterButton;
+    TextView temp;
     int selectedItem;
 
     List<Item> itemList;
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                temp.setText("");
                 Intent intent = new Intent(MainActivity.this, FilterActivity.class);
                 startActivity(intent);
             }
@@ -148,24 +153,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        temp = findViewById(R.id.tempPrice);
+        temp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.equals("")) {
+                    recyclerAdapter.getPriceFilter().filter("");
+                }
+            }
+        });
+
+
     }
 
     @SneakyThrows
     void checkUrl() {
-        if (MyProperties.getInstance().selectedCategory != "") {
-            String cat = MyProperties.getInstance().selectedCategory;
-            String urlString = "https://student.cloud.htl-leonding.ac.at/20170033/api/categories/" + cat;
-            if(MyProperties.getInstance().category2 != ""){
-                urlString = urlString+"/"+MyProperties.getInstance().category2;
+
+        //Bundle bundle = getIntent().getExtras();
+
+        /*if (bundle != null) {
+            if(bundle.getBoolean("fromImage") == true){
+                url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/similarItems/getAll");
             }
-            if(MyProperties.getInstance().category3 != ""){
-                urlString = urlString+"/"+MyProperties.getInstance().category3;
+        } else {*/
+            if (MyProperties.getInstance().selectedCategory != "") {
+                String cat = MyProperties.getInstance().selectedCategory;
+                String urlString = "https://student.cloud.htl-leonding.ac.at/20170033/api/categories/" + cat;
+                if (MyProperties.getInstance().category2 != "") {
+                    urlString = urlString + "/" + MyProperties.getInstance().category2;
+                }
+                if (MyProperties.getInstance().category3 != "") {
+                    urlString = urlString + "/" + MyProperties.getInstance().category3;
+                }
+                url = new URL(urlString);
+                MyProperties.getInstance().selectedCategory = cat;
+            } else {
+                url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/item/inserted");
             }
-            url = new URL(urlString);
-            MyProperties.getInstance().selectedCategory = cat;
-        } else {
-            url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/item/inserted");
-        }
+        //}
 
         Log.i(TAG, "checked url... taken: " + "'" + url + "'");
 
@@ -192,6 +228,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
 
         spinnerOnClick(selectedItem);
+        if (MyProperties.getInstance().priceFilter1 != 0 || MyProperties.getInstance().priceFilter2 != 0) {
+            temp.setText("deiMama");
+        }
         //recyclerAdapter.getPriceFilter().filter("");
     }
 
@@ -214,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
     // sort list in recycler view triggered by spinner.onItemSelected()
     public void spinnerOnClick(int position) {
         recyclerAdapter.getSortFilter().filter(spinnerOptions[position]);
-        recyclerAdapter.getPriceFilter().filter("");
     }
 
     // set up back button in action bar
@@ -272,16 +310,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void onAccountPressed() {
         String userData = MyProperties.getInstance().userLoginData;
-        if(userData == null || userData == ""){
+        if (userData == null || userData == "") {
             System.out.println("Opened without login!");
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
-        }else {
+        } else {
             System.out.println("Account opened!");
             Intent intent = new Intent(MainActivity.this, AccountActivity.class);
             startActivity(intent);
         }
-
 
 
     }

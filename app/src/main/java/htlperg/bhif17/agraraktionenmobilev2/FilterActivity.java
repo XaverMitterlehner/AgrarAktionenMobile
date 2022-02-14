@@ -23,7 +23,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -39,12 +41,9 @@ public class FilterActivity extends AppCompatActivity {
     Button submitButton, resetButton;
 
     TextView categoryText, priceFilterInfoText;
-    Boolean selected = false;
 
     TextInputLayout price1InputLayout, price2InputLayout;
     TextInputEditText price2EditText, price1EditText;
-
-    ListView listView;
 
     @SneakyThrows
     @Override
@@ -86,7 +85,10 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     void setFirstCategory(String categories[]){
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, categories);
+        List<String> tempList = new ArrayList<>(Arrays.asList(categories));
+        tempList.add(0, "Erste Kategorie auswählen");
+
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, tempList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(spinnerAdapter);
 
@@ -95,16 +97,24 @@ public class FilterActivity extends AppCompatActivity {
         if (MyProperties.getInstance().selectedCategory == "") {
             spinner1.setSelection(0, false);
         } else {
-            spinner1.setSelection(position, false);
+            spinner1.setSelection(position+1, false);
+            submitButton.setEnabled(true);
+            refresh2();
         }
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String cat = spinner1.getSelectedItem().toString();
-                MyProperties.getInstance().selectedCategory = cat;
-                //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + ")");
-                refresh2();
+                if(cat != "Erste Kategorie auswählen") {
+                    MyProperties.getInstance().selectedCategory = cat;
+                    submitButton.setEnabled(true);
+                    refresh2();
+                } else {
+                    MyProperties.getInstance().selectedCategory = "";
+                    submitButton.setEnabled(false);
+                }
+
             }
 
             @Override
@@ -117,16 +127,22 @@ public class FilterActivity extends AppCompatActivity {
 
     void setSecondCategory(String categories2[]){
 
-        ArrayAdapter spinnerAdapter2 = new ArrayAdapter(this, R.layout.spinner_item, categories2);
+        List<String> tempList = new ArrayList<>(Arrays.asList(categories2));
+        tempList.add(0, "Zweite Kategorie auswählen");
+
+        ArrayAdapter spinnerAdapter2 = new ArrayAdapter(this, R.layout.spinner_item, tempList);
         spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(spinnerAdapter2);
 
         int position = Arrays.asList(categories2).indexOf(MyProperties.getInstance().category2);
 
+        spinner2.setVisibility(View.VISIBLE);
+
         if (MyProperties.getInstance().category2 == "") {
             spinner2.setSelection(0, false);
         } else {
-            spinner2.setSelection(position, false);
+            spinner2.setSelection(position+1, false);
+            refresh3();
         }
 
         //spinner2.setEnabled(false);
@@ -136,11 +152,12 @@ public class FilterActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //if (selected){
                     String cat = spinner2.getSelectedItem().toString();
-                    MyProperties.getInstance().category2 = cat;
-                    //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + "/" + spinner2.getSelectedItem().toString() + ")");
-                    refresh3();
-                //}
-                //selected = true;
+                    if(cat != "Zweite Kategorie auswählen"){
+                        MyProperties.getInstance().category2 = cat;
+                        refresh3();
+                    } else {
+                        MyProperties.getInstance().category2 = "";
+                    }
             }
 
             @Override
@@ -152,30 +169,33 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     void setThirdCategory(String categories3[]){
-        ArrayAdapter spinnerAdapter3 = new ArrayAdapter(this, R.layout.spinner_item, categories3);
-        spinnerAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner3.setAdapter(spinnerAdapter3);
+        List<String> tempList = new ArrayList<>(Arrays.asList(categories3));
+        tempList.add(0, "Dritte Kategorie auswählen");
+
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, R.layout.spinner_item, tempList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner3.setAdapter(spinnerAdapter);
 
         int position = Arrays.asList(categories3).indexOf(MyProperties.getInstance().category3);
 
-        if (MyProperties.getInstance().category3 == "") {
+        spinner3.setVisibility(View.VISIBLE);
+
+        if (MyProperties.getInstance().selectedCategory == "") {
             spinner3.setSelection(0, false);
         } else {
-            spinner3.setSelection(position, false);
+            spinner3.setSelection(position+1, false);
         }
-
-        //spinner2.setEnabled(false);
 
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //if (selected){
                 String cat = spinner3.getSelectedItem().toString();
-                MyProperties.getInstance().category3 = cat;
-                //categoryText.setText("Kategorien:" + "(" + spinner1.getSelectedItem().toString() + "/" + spinner2.getSelectedItem().toString() + ")");
-                refresh3();
-                //}
-                //selected = true;
+                if(cat != "Dritte Kategorie auswählen") {
+                    MyProperties.getInstance().category3 = cat;
+                } else {
+                    MyProperties.getInstance().category3 = "";
+                }
+
             }
 
             @Override
@@ -189,24 +209,26 @@ public class FilterActivity extends AppCompatActivity {
 
     void setFiltering(String categories[]) {
 
-        setFirstCategory(categories);
-
-        setupPriceFilter();
-
         submitButton = findViewById(R.id.submitButton);
         resetButton = findViewById(R.id.resetFilterButton);
         resetButton.setEnabled(false);
+
+        submitButton.setEnabled(false);
+
+        setFirstCategory(categories);
+
+        setupPriceFilter();
 
         Intent intent = new Intent(FilterActivity.this, MainActivity.class);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String cat = spinner1.getSelectedItem().toString();
-                if(selected == true){
+                String cat = MyProperties.getInstance().selectedCategory; //spinner1.getSelectedItem().toString();
+                /*if(selected == true){
                     cat = cat + "/" + spinner2.getSelectedItem().toString();
-                }
-                MyProperties.getInstance().selectedCategory = cat;
+                }*/
+                //MyProperties.getInstance().selectedCategory = cat;
                 startActivity(intent);
             }
         });

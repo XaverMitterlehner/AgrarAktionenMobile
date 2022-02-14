@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user");
-                            //URL url = new URL("http://10.0.2.2:8080/api/user");
+                            //URL url = new URL("https://student.cloud.htl-leonding.ac.at/20170033/api/user");
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("POST");
                             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");

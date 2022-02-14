@@ -46,28 +46,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/categoryDropDown"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="2dp"
-
                 android:background="@drawable/spinner_background"
 
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+
+                android:visibility="gone" />
 
             <Spinner
                 android:id="@+id/categoryDropDown3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/categoryDropDown2"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="2dp"
-
                 android:background="@drawable/spinner_background"
 
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -86,80 +88,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/faText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Preis:"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
+            <TextView
+                android:id="@+id/faText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Preis:"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceFilterInputLayout1"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/faText2"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:hint="von"
-            android:textColorHint="@color/white"
-            app:boxStrokeColor="@color/aa_green"
-            app:boxStrokeWidth="2dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/priceFilterInputLayout1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/faText2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:hint="von"
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/aa_green"
+                app:boxStrokeWidth="2dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/priceFilterEditText1"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:inputType="text" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/priceFilterEditText1"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:inputType="text" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceFilterInputLayout2"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/faText2"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@id/priceFilterInputLayout1"
-            android:textColorHint="@color/white"
-            app:boxStrokeColor="@color/aa_green"
-            app:boxStrokeWidth="2dp"
-            android:hint="bis">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/priceFilterInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/faText2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/priceFilterInputLayout1"
+                android:hint="bis"
+                android:textColorHint="@color/white"
+                app:boxStrokeColor="@color/aa_green"
+                app:boxStrokeWidth="2dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/priceFilterEditText2"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:inputType="text" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/priceFilterEditText2"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:inputType="text" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/priceFilterInfoText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/priceFilterInputLayout2"
-            android:layout_margin="10dp"
-            android:textColor="@color/red"
-            android:text="Eingabe überprüfen!"
-            android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/priceFilterInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/priceFilterInputLayout2"
+                android:layout_margin="10dp"
+                android:text="Eingabe überprüfen!"
+                android:textColor="@color/red"
+                android:visibility="invisible" />
 
-        <!--<com.google.android.material.slider.RangeSlider
-            android:id="@+id/priceSlider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/faText2"
-            android:layout_margin="5dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="5dp"
-            app:values="@array/rangeSliderValues"
-            android:valueFrom="0"
-            android:valueTo="6000"
-            android:stepSize="5"/>-->
+            <!--<com.google.android.material.slider.RangeSlider
+                android:id="@+id/priceSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/faText2"
+                android:layout_margin="5dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="5dp"
+                app:values="@array/rangeSliderValues"
+                android:valueFrom="0"
+                android:valueTo="6000"
+                android:stepSize="5"/>-->
 
         </RelativeLayout>
 
@@ -169,23 +171,21 @@
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:maxWidth="250dp"
+        android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="25dp"
+        android:layout_toRightOf="@+id/resetFilterButton"
         android:backgroundTint="@color/aa_green"
-        android:text="Filter anwenden"
-        android:textSize="12dp"/>
+        android:text="Filter anwenden" />-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/resetFilterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:maxWidth="200dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="25dp"
+        android:layout_margin="10dp"
         android:backgroundTint="@color/aa_green"
-        android:text="Filter zurücksetzen"
-        android:textSize="12dp"/>
-
+        android:text="Filter zurücksetzen" />
 
 </RelativeLayout>
