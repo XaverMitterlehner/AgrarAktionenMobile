@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/black">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/myCardView"
@@ -10,7 +11,7 @@
         android:layout_height="160dp"
         android:layout_margin="1dp"
         app:cardElevation="3dp"
-        app:cardBackgroundColor="@color/cardview_dark_background">
+        app:cardBackgroundColor="@color/anthracite">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,6 +51,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="3"
                         android:textColor="@color/white"
+                        android:layout_marginTop="6dp"
                         android:text="Bezeichnung" />
 
                     <TextView
