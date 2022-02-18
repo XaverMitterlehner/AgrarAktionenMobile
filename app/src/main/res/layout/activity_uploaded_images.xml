@@ -5,12 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".image.UploadedImagesActivity"
-    android:background="@color/black">
+    android:background="@color/dark_grey">
+
+    <TextView
+        android:id="@+id/clickToGetSimilarItemsAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_margin="5dp"
+        android:text="klicken um erneut ähnliche Angebote zu erhalten:"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imageRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"/>
+        android:background="@color/black"
+        android:layout_below="@+id/clickToGetSimilarItemsAgain"/>
 
 </RelativeLayout>

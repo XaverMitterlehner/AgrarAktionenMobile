@@ -17,18 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/ilText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textColor="@color/white" />
 
+                android:layout_below="@id/ilText"-->
+
             <ImageView
                 android:id="@+id/ilImage"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_below="@id/ilText"
                 android:layout_centerHorizontal="true"
                 android:background="@color/white"
                 android:layout_margin="7dp" />

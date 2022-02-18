@@ -44,7 +44,7 @@ public class UploadedImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_uploaded_images);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Recently uploaded images");
+        getSupportActionBar().setTitle("Bereits hochgeladene Bilder");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

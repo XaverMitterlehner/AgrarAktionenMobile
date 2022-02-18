@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putBoolean(NOTIFICATIONSWITCH, notificationSwitch.isChecked());
         editor.apply();
 
-        Toast.makeText(this, "settings updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Einstellungen gespeichert", Toast.LENGTH_SHORT).show();
     }
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);

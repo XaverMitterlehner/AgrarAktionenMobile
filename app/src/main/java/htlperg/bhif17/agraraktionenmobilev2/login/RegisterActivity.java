@@ -143,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (isNameValid && isEmailValid && isPasswordValid) {
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Benutzer erfolgreich angelegt", Toast.LENGTH_SHORT).show();
         }
 
     }

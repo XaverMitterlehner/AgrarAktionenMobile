@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onLogoutPressed() {
         Log.e(TAG, "Not working now!");
-        Toast.makeText(getApplicationContext(), "coming soon!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Noch nicht verfügbar!", Toast.LENGTH_SHORT).show();
         /*
         Account accountLogout = new Account();
         accountLogout.logout();

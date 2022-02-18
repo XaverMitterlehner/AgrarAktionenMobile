@@ -58,7 +58,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
 
-        holder.textView.setText("id: " + imageList.get(position).getId());
+        //holder.textView.setText("id: " + imageList.get(position).getId());
 
         byte[] b = imageList.get(position).getBytes();
 
@@ -103,7 +103,7 @@ class ImageViewHolder extends RecyclerView.ViewHolder {
     public ImageViewHolder (View view){
         super(view);
         imageView = itemView.findViewById(R.id.ilImage);
-        textView = itemView.findViewById(R.id.ilText);
+        //textView = itemView.findViewById(R.id.ilText);
 
         cardView = itemView.findViewById(R.id.imageListCardView);
     }

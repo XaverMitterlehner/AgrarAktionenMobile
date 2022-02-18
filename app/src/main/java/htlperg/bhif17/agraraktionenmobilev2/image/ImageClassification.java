@@ -134,7 +134,7 @@ public class ImageClassification extends AppCompatActivity {
                 if (file_path != null) {
                     UploadFile();
                 } else {
-                    Toast.makeText(ImageClassification.this, "Please Select File First", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImageClassification.this, "Kein Bild ausgewählt", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,7 +156,7 @@ public class ImageClassification extends AppCompatActivity {
 
     private void photoTaker() {
 
-        Toast.makeText(ImageClassification.this, "Camera opened", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ImageClassification.this, "Kamera ", Toast.LENGTH_SHORT).show();
         //Intent takePictureIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
@@ -171,7 +171,7 @@ public class ImageClassification extends AppCompatActivity {
     private void filePicker() {
 
         //.Now Permission Working
-        Toast.makeText(ImageClassification.this, "File Picker Call", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ImageClassification.this, "File Picker Call", Toast.LENGTH_SHORT).show();
         //Let's Pick File
         Intent opengallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         opengallery.setType("image/*");
@@ -181,7 +181,7 @@ public class ImageClassification extends AppCompatActivity {
 
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(ImageClassification.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Toast.makeText(ImageClassification.this, "Please Give Permission to Upload File", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ImageClassification.this, "fehlende Berichtigungen!", Toast.LENGTH_SHORT).show();
         } else {
             ActivityCompat.requestPermissions(ImageClassification.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
@@ -202,9 +202,9 @@ public class ImageClassification extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(ImageClassification.this, "Permission Successfull", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ImageClassification.this, "Permission Successfull", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ImageClassification.this, "Permission Failed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ImageClassification.this, "Permission Failed", Toast.LENGTH_SHORT).show();
                 }
         }
     }
@@ -264,9 +264,9 @@ public class ImageClassification extends AppCompatActivity {
             super.onPostExecute(s);
             progressBar.setVisibility(View.GONE);
             if (s.equalsIgnoreCase("true")) {
-                Toast.makeText(ImageClassification.this, "File uploaded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ImageClassification.this, "File uploaded", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ImageClassification.this, "Failed Upload", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ImageClassification.this, "Bild konnte nicht hochgeladen werden", Toast.LENGTH_SHORT).show();
             }
         }
 

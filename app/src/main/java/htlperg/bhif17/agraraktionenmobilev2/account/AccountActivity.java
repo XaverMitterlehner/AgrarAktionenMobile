@@ -53,7 +53,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Account Settings");
+        getSupportActionBar().setTitle("Account");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         username = (EditText) findViewById(R.id.name);
@@ -80,11 +80,11 @@ public class AccountActivity extends AppCompatActivity {
 
     public void  update() {
         new UpdateTask().execute();
-        Toast.makeText(this, "account updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Account aktualisiert", Toast.LENGTH_SHORT).show();
     }
     public void  logout() {
         new LogoutTask().execute();
-        Toast.makeText(this, "logged out", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "abgemeldet", Toast.LENGTH_SHORT).show();
     }
 
     private void removeMyProperties() {

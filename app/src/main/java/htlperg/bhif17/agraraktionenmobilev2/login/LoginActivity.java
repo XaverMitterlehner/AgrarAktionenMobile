@@ -161,9 +161,9 @@ public class LoginActivity extends AppCompatActivity {
             private void newAction() {
                 String login = loginData;
                 if(login == null ||  login.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Failed to Login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Anmelden fehlgeschlagen", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Anmelden erfolgreich", Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                     Log.i(TAG, "login properties set to: " + login);
                     MyProperties.getInstance().userLoginData = loginData;

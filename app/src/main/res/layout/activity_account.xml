@@ -98,7 +98,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginHorizontal="20dp"
                 android:backgroundTint="@color/aa_green"
-                android:text="Save"
+                android:text="Speichern"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -108,7 +108,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="20dp"
                 android:backgroundTint="@color/aa_green"
-                android:text="Logout"
+                android:text="Abmelden"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
